@@ -68,6 +68,7 @@ add_library(aware STATIC
 )
 target_compile_options(aware PRIVATE -Wall -Wextra)
 target_link_libraries(aware ${AWARE_ZEROCONF_TARGET} ${EXTRA_LIBS})
+target_include_directories(aware PUBLIC include)
 
 ###############################################################################
 # Examples
