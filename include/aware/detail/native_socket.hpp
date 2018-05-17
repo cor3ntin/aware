@@ -36,10 +36,8 @@ public:
 };
 
 //! @brief Boost.Asio wrapper for a native socket
-class native_socket
-{
-    typedef non_closing_service<boost::asio::posix::stream_descriptor_service> service_type;
-    typedef boost::asio::posix::basic_stream_descriptor<service_type> socket_type;
+class native_socket {
+   using socket_type = boost::asio::posix::stream_descriptor;
 
 public:
     typedef socket_type::native_handle_type native_handle_type;
