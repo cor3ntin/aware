@@ -27,7 +27,7 @@ namespace avahi
 class factory : public aware::factory
 {
 public:
-    boost::shared_ptr<aware::announce_socket> make_announce(boost::asio::io_service& io)
+    boost::shared_ptr<aware::announce_socket_base> make_announce(boost::asio::io_service& io)
     {
         return boost::make_shared<aware::avahi::announce_socket>(boost::ref(io));
     }

@@ -16,18 +16,15 @@
 #include <boost/function.hpp>
 #include <aware/contact.hpp>
 
-namespace aware
-{
+namespace aware {
 
-class announce_socket
-{
+class announce_socket_base {
 public:
-    typedef boost::function<void (const boost::system::error_code&)> async_announce_handler;
+    typedef boost::function<void(const boost::system::error_code&)> async_announce_handler;
 
-    virtual void async_announce(aware::contact& contact,
-                                async_announce_handler) = 0;
+    virtual void async_announce(aware::contact& contact, async_announce_handler) = 0;
 };
 
-} // namespace aware
+}  // namespace aware
 
-#endif // AWARE_ANNOUNCE_SOCKET_HPP
+#endif  // AWARE_ANNOUNCE_SOCKET_HPP

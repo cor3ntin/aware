@@ -32,7 +32,7 @@ class announcer
 {
 public:
     typedef int error_type;
-    typedef typename aware::announce_socket::async_announce_handler async_announce_handler;
+    typedef typename aware::announce_socket_base::async_announce_handler async_announce_handler;
 
     // Instantiated per announce type
     announcer(detail::handle&);

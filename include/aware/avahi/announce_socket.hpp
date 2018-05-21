@@ -22,31 +22,25 @@
 #include <aware/avahi/service.hpp>
 #include <aware/avahi/detail/announcer.hpp>
 
-namespace aware
-{
-namespace avahi
-{
+namespace aware {
+namespace avahi {
 
-class announce_socket
-    : public aware::announce_socket,
-      public boost::asio::basic_io_object<avahi::service>
-{
-public:
-    announce_socket(boost::asio::io_service&);
+    class announce_socket : public aware::announce_socket_base, public boost::asio::basic_io_object<avahi::service> {
+    public:
+        announce_socket(boost::asio::io_context&);
 
-    virtual void async_announce(aware::contact& contact,
-                                async_announce_handler);
+        virtual void async_announce(aware::contact& contact, async_announce_handler);
 
-private:
-    void process_announce(const boost::system::error_code&,
-                          async_announce_handler);
+    private:
+        void process_announce(const boost::system::error_code&, async_announce_handler);
 
-private:
-    // FIXME: Defer intialization until inside io.run()
-    aware::avahi::detail::announcer announcer; // FIXME: This may not be created before client has entered one of the AVAHI_CLIENT_S_* states [defs.h]
-};
+    private:
+        // FIXME: Defer intialization until inside io.run()
+        aware::avahi::detail::announcer announcer;  // FIXME: This may not be created before client has entered one of
+                                                    // the AVAHI_CLIENT_S_* states [defs.h]
+    };
 
-} // namespace avahi
-} // namespace aware
+}  // namespace avahi
+}  // namespace aware
 
-#endif // AWARE_ANNOUNCE_SOCKET_HPP
+#endif  // AWARE_ANNOUNCE_SOCKET_HPP

@@ -25,7 +25,7 @@ namespace bonjour
 class factory : public aware::factory
 {
 public:
-    virtual boost::shared_ptr<aware::announce_socket> make_announce(boost::asio::io_service&);
+    virtual boost::shared_ptr<aware::announce_socket_base> make_announce(boost::asio::io_service&);
     virtual boost::shared_ptr<aware::monitor_socket> make_monitor(boost::asio::io_service&);
 };
 
