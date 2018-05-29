@@ -21,24 +21,6 @@ project(aware)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
 
 ###############################################################################
-# Boost package
-###############################################################################
-
-## FIXME: Probably ok to use older version
-#find_package(Boost 1.49.0 COMPONENTS system thread)
-#if (NOT ${Boost_FOUND})
-#  message(FATAL_ERROR "${Boost_ERROR_REASON}")
-#endif()
-#include_directories(BEFORE ${Boost_INCLUDE_DIR})
-#set(EXTRA_LIBS ${EXTRA_LIBS} ${Boost_LIBRARIES})
-
-###############################################################################
-# ZeroConf package
-###############################################################################
-
-find_package(ZeroConf REQUIRED)
-
-###############################################################################
 # Aware package
 ###############################################################################
 
@@ -81,30 +63,4 @@ add_library(aware STATIC
 )
 
 target_include_directories(aware PUBLIC include)
-target_link_libraries(aware boost::asio)
-
-if (${ZEROCONF_AVAHI_FOUND})
-  target_include_directories(aware PUBLIC ${ZEROCONF_AVAHI_INCLUDE_DIRS})
-  target_link_libraries(aware PUBLIC ${ZEROCONF_AVAHI_LIBRARIES} ${EXTRA_LIBS})
-  target_compile_definitions(aware PUBLIC -DAWARE_HAS_AVAHI)
-
-elseif (${ZEROCONF_BONJOUR_FOUND})
-  target_include_directories(aware PUBLIC ${ZEROCONF_BONJOUR_INCLUDE_DIRS})
-  target_link_libraries(aware PUBLIC ${ZEROCONF_BONJOUR_LIBRARIES} ${EXTRA_LIBS})
-  target_compile_definitions(aware PUBLIC -DAWARE_HAS_BONJOUR)
-else()
-    message(FATAL_ERROR "No ZeroConf module found")
-endif()
-
-
-###############################################################################
-# Examples
-###############################################################################
-
-#if(${ZEROCONF_AVAHI_FOUND})
-#  add_subdirectory(example/avahi EXCLUDE_FROM_ALL)
-#  add_custom_target(example DEPENDS avahi-example)
-#elseif(${ZEROCONF_BONJOUR_FOUND})
-#  add_subdirectory(example/bonjour EXCLUDE_FROM_ALL)
-#  add_custom_target(example DEPENDS bonjour-example)
-#endif()
+target_link_libraries(aware boost::asio zeroconf)

@@ -1,4 +1,4 @@
-#ifdef AWARE_HAS_AVAHI
+#ifdef DNSSD_AVAHI
 #    include <aware/avahi/announce_socket.hpp>
 #else
 #    include <aware/bonjour/announce_socket.hpp>
@@ -8,7 +8,7 @@
 
 namespace aware {
 
-#ifdef AWARE_HAS_AVAHI
+#ifdef DNSSD_AVAHI
 using announce_socket = avahi::announce_socket;
 #else
 using announce_socket = bonjour::announce_socket;
