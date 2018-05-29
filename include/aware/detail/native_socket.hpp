@@ -16,54 +16,46 @@
 #include <boost/asio.hpp>
 #include <boost/function.hpp>
 
-namespace aware
-{
-namespace detail
-{
+namespace aware {
+namespace detail {
 
-template <typename Service>
-class non_closing_service : public Service
-{
-public:
-    non_closing_service(boost::asio::io_service& io)
-        : Service(io)
-    {}
+    template <typename Service>
+    class non_closing_service : public Service {
+    public:
+        non_closing_service(boost::asio::io_service& io) : Service(io) {}
 
-    void destroy(typename Service::implementation_type&)
-    {
-        // Do not close the file descriptor as we have no ownership of it
-    }
-};
+        void destroy(typename Service::implementation_type&) {
+            // Do not close the file descriptor as we have no ownership of it
+        }
+    };
 
-//! @brief Boost.Asio wrapper for a native socket
-class native_socket {
-   using socket_type = boost::asio::posix::stream_descriptor;
+    //! @brief Boost.Asio wrapper for a native socket
+    class native_socket {
+        using socket_type = boost::asio::basic_stream_socket<boost::asio::ip::tcp>;
 
-public:
-    typedef socket_type::native_handle_type native_handle_type;
+    public:
+        typedef socket_type::native_handle_type native_handle_type;
 
-    native_socket(boost::asio::io_service&, native_handle_type);
-    ~native_socket();
+        native_socket(boost::asio::io_service&, native_handle_type);
+        ~native_socket();
 
-    template <typename Handler>
-    void async_read_event(BOOST_ASIO_MOVE_ARG(Handler) handler)
-    {
-        socket.async_read_some(boost::asio::null_buffers(), handler);
-    }
+        template <typename Handler>
+        void async_read_event(BOOST_ASIO_MOVE_ARG(Handler) handler) {
+            socket.async_read_some(boost::asio::null_buffers(), handler);
+        }
 
-    template <typename Handler>
-    void async_write_event(BOOST_ASIO_MOVE_ARG(Handler) handler)
-    {
-        socket.async_write_some(boost::asio::null_buffers(), handler);
-    }
+        template <typename Handler>
+        void async_write_event(BOOST_ASIO_MOVE_ARG(Handler) handler) {
+            socket.async_write_some(boost::asio::null_buffers(), handler);
+        }
 
-    native_handle_type native_handle();
+        native_handle_type native_handle();
 
-private:
-    socket_type socket;
-};
+    private:
+        socket_type socket;
+    };
 
-} // namespace detail
-} // namespace aware
+}  // namespace detail
+}  // namespace aware
 
-#endif // AWARE_DETAIL_NATIVE_SOCKET_HPP
+#endif  // AWARE_DETAIL_NATIVE_SOCKET_HPP

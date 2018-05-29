@@ -12,32 +12,25 @@
 
 #include <aware/detail/native_socket.hpp>
 
-namespace aware
-{
-namespace detail
-{
+namespace aware {
+namespace detail {
 
-native_socket::native_socket(boost::asio::io_service& io,
-                             native_handle_type handle)
-    : socket(io, handle)
-{
-}
+    native_socket::native_socket(boost::asio::io_service& io, native_handle_type handle) : socket(io) {
+        socket.assign(boost::asio::ip::tcp::v4(), handle);
+    }
 
-native_socket::~native_socket()
-{
-  // Close the socket to make sure all asynchronous requests are cancelled.
-  if (socket.is_open())
-  {
-    boost::system::error_code dummy; // Ignore errors
-    socket.close(dummy);
-    socket.release();
-  }
-}
+    native_socket::~native_socket() {
+        // Close the socket to make sure all asynchronous requests are cancelled.
+        if(socket.is_open()) {
+            boost::system::error_code dummy;  // Ignore errors
+            socket.close(dummy);
+            socket.release();
+        }
+    }
 
-native_socket::native_handle_type native_socket::native_handle()
-{
-    return socket.native_handle();
-}
+    native_socket::native_handle_type native_socket::native_handle() {
+        return socket.native_handle();
+    }
 
-} // namespace detail
-} // namespace aware
+}  // namespace detail
+}  // namespace aware
