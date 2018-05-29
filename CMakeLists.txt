@@ -63,4 +63,4 @@ add_library(aware STATIC
 )
 
 target_include_directories(aware PUBLIC include)
-target_link_libraries(aware boost::asio zeroconf)
+target_link_libraries(aware Boost::asio zeroconf)

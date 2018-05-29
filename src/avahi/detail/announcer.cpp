@@ -113,8 +113,8 @@ namespace avahi {
             // Use all network interfaces
             const AvahiIfIndex interface_index = AVAHI_IF_UNSPEC;
             // Use only a specific protocol
-            const AvahiProtocol protocol =
-                contact.endpoint().protocol() == boost::asio::ip::tcp::v6() ? AVAHI_PROTO_INET6 : AVAHI_PROTO_INET;
+            const AvahiProtocol protocol = AVAHI_PROTO_UNSPEC;
+            //  contact.endpoint().protocol() == boost::asio::ip::tcp::v6() ? AVAHI_PROTO_INET6 : AVAHI_PROTO_INET;
             std::string name = contact.name();
             std::string type = aware::detail::type_encode(contact.type());
             // Use .local
