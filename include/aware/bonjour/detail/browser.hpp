@@ -18,44 +18,36 @@
 #include <aware/contact.hpp>
 #include <aware/bonjour/detail/handle.hpp>
 
-namespace aware
-{
-namespace bonjour
-{
-namespace detail
-{
+namespace aware {
+namespace bonjour {
+    namespace detail {
 
-class browser
-{
-    typedef void * identifier_type;
+        class browser_listener {
+        public:
+            virtual ~browser_listener() {}
 
-public:
-    class listener
-    {
-    public:
-        virtual ~listener() {}
+            virtual void on_browser_appear(const aware::contact& contact, bool more) = 0;
+            virtual void on_browser_disappear(const aware::contact& contact, bool more) = 0;
+            virtual void on_browser_failure(const boost::system::error_code&) = 0;
+        };
 
-        virtual void on_browser_appear(const aware::contact& contact,
-                                       bool more) = 0;
-        virtual void on_browser_disappear(const aware::contact& contact,
-                                          bool more) = 0;
-        virtual void on_browser_failure(const boost::system::error_code&) = 0;
-    };
 
-    browser(const std::string& type,
-            detail::handle&,
-            browser::listener&);
+        class browser {
+            typedef void* identifier_type;
 
-private:
-    struct callback;
+        public:
+            browser(const std::string& type, detail::handle&, browser_listener&);
 
-    detail::handle& connection;
-    browser::listener& listener;
-    detail::handle handle;
-};
+        private:
+            struct callback;
 
-} // namespace detail
-} // namespace bonjour
-} // namespace aware
+            detail::handle& connection;
+            browser_listener& listener;
+            detail::handle handle;
+        };
 
-#endif // AWARE_BONJOUR_DETAIL_BROWSER_HPP
+    }  // namespace detail
+}  // namespace bonjour
+}  // namespace aware
+
+#endif  // AWARE_BONJOUR_DETAIL_BROWSER_HPP

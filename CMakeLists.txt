@@ -64,3 +64,29 @@ add_library(aware STATIC
 
 target_include_directories(aware PUBLIC include)
 target_link_libraries(aware Boost::asio zeroconf)
+
+if (AVAHI_COMMON_LIBRARIES)
+  target_include_directories(aware PUBLIC ${ZEROCONF_AVAHI_INCLUDE_DIRS})
+  target_link_libraries(aware PUBLIC ${ZEROCONF_AVAHI_LIBRARIES} ${EXTRA_LIBS})
+  target_compile_definitions(aware PUBLIC -DAWARE_HAS_AVAHI)
+
+elseif (DNSSD_FOUND)
+  target_include_directories(aware PUBLIC ${ZEROCONF_BONJOUR_INCLUDE_DIRS})
+  target_link_libraries(aware PUBLIC ${ZEROCONF_BONJOUR_LIBRARIES} ${EXTRA_LIBS})
+  target_compile_definitions(aware PUBLIC -DAWARE_HAS_BONJOUR)
+else()
+    message(FATAL_ERROR "No ZeroConf module found")
+endif()
+
+
+###############################################################################
+# Examples
+###############################################################################
+
+#if(${ZEROCONF_AVAHI_FOUND})
+#  add_subdirectory(example/avahi EXCLUDE_FROM_ALL)
+#  add_custom_target(example DEPENDS avahi-example)
+#elseif(${ZEROCONF_BONJOUR_FOUND})
+#  add_subdirectory(example/bonjour EXCLUDE_FROM_ALL)
+#  add_custom_target(example DEPENDS bonjour-example)
+#endif()

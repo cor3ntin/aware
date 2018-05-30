@@ -16,45 +16,38 @@
 #include <aware/contact.hpp>
 #include <aware/bonjour/detail/handle.hpp>
 
-namespace aware
-{
-namespace bonjour
-{
-namespace detail
-{
-
-class resolver
-{
-public:
-    class listener
-    {
+namespace aware {
+namespace bonjour {
+    class resolver_listener {
     public:
-        virtual ~listener() {};
-
+        virtual ~resolver_listener() {}
         virtual void on_resolver_done(const aware::contact& contact) = 0;
         virtual void on_resolver_failure(const boost::system::error_code&) = 0;
     };
 
-    resolver(detail::handle&,
-             const aware::contact& contact,
-             resolver::listener&);
 
-private:
-    void on_resolved(const char *host);
-    void on_addrinfo(bool more);
+    namespace detail {
 
-private:
-    struct callback;
+        class resolver {
+        public:
+            resolver(detail::handle&, const aware::contact& contact, resolver_listener&);
 
-    detail::handle& connection;
-    resolver::listener& listener;
-    detail::handle handle;
-    aware::contact contact;
-    short port;
-};
+        private:
+            void on_resolved(const char* host);
+            void on_addrinfo(bool more);
 
-} // namespace detail
-} // namespace bonjour
-} // namespace aware
+        private:
+            struct callback;
 
-#endif // AWARE_BONJOUR_DETAIL_RESOLVER_HPP
+            detail::handle& connection;
+            resolver_listener& listener;
+            detail::handle handle;
+            aware::contact contact;
+            short port;
+        };
+
+    }  // namespace detail
+}  // namespace bonjour
+}  // namespace aware
+
+#endif  // AWARE_BONJOUR_DETAIL_RESOLVER_HPP
