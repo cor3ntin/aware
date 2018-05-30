@@ -42,11 +42,12 @@ namespace bonjour {
         //-----------------------------------------------------------------------------
 
         struct resolver::callback {
-            static void on_resolved(::DNSServiceRef, ::DNSServiceFlags, uint32_t interface_index,
-                                    ::DNSServiceErrorType error, const char* /* fullname */,  // name._type._tcp.local
-                                    const char* host,                                         // host.local
-                                    uint16_t port, uint16_t txt_length, const unsigned char* txt_record,
-                                    void* context) {
+            static void DNSSD_API on_resolved(::DNSServiceRef, ::DNSServiceFlags, uint32_t interface_index,
+                                              ::DNSServiceErrorType error,
+                                              const char* /* fullname */,  // name._type._tcp.local
+                                              const char* host,            // host.local
+                                              uint16_t port, uint16_t txt_length, const unsigned char* txt_record,
+                                              void* context) {
                 resolver* self = static_cast<resolver*>(context);
                 assert(self);
 
@@ -80,9 +81,9 @@ namespace bonjour {
                 }
             }
 
-            static void on_addrinfo(::DNSServiceRef, ::DNSServiceFlags flags, uint32_t /* interface_index */,
-                                    ::DNSServiceErrorType error, const char* /* host */, const struct sockaddr* address,
-                                    uint32_t /* ttl */, void* context) {
+            static void DNSSD_API on_addrinfo(::DNSServiceRef, ::DNSServiceFlags flags, uint32_t /* interface_index */,
+                                              ::DNSServiceErrorType error, const char* /* host */,
+                                              const struct sockaddr* address, uint32_t /* ttl */, void* context) {
                 resolver* self = static_cast<resolver*>(context);
                 assert(self);
 

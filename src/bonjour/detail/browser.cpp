@@ -28,9 +28,9 @@ namespace bonjour {
         //-----------------------------------------------------------------------------
 
         struct browser::callback {
-            static void on_browsed(::DNSServiceRef, ::DNSServiceFlags flags, uint32_t interface_index,
-                                   ::DNSServiceErrorType error, const char* name, const char* regtype,
-                                   const char* domain, void* context) {
+            static void DNSSD_API on_browsed(::DNSServiceRef, ::DNSServiceFlags flags, uint32_t interface_index,
+                                             ::DNSServiceErrorType error, const char* name, const char* regtype,
+                                             const char* domain, void* context) {
                 try {
                     browser* self = static_cast<browser*>(context);
                     assert(self);
