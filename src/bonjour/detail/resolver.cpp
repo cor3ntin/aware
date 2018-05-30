@@ -105,8 +105,7 @@ namespace bonjour {
         // resolver
         //-----------------------------------------------------------------------------
 
-        resolver::resolver(detail::handle& connection, const aware::contact& contact,
-                           typename resolver_listener& listener)
+        resolver::resolver(detail::handle& connection, const aware::contact& contact, resolver_listener& listener)
             : connection(connection), listener(listener), contact(contact), port(0) {
             const ::DNSServiceFlags flags = kDNSServiceFlagsShareConnection;
             std::string regtype = aware::detail::type_encode(contact.type());

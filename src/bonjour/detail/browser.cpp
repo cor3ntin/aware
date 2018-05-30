@@ -59,7 +59,7 @@ namespace bonjour {
         // browser
         //-----------------------------------------------------------------------------
 
-        browser::browser(const std::string& type, detail::handle& connection, typename browser_listener& listener)
+        browser::browser(const std::string& type, detail::handle& connection, browser_listener& listener)
             : connection(connection), listener(listener) {
             const ::DNSServiceFlags flags = kDNSServiceFlagsShareConnection;
             std::string regtype = aware::detail::type_encode(type);
