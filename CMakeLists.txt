@@ -62,7 +62,7 @@ add_library(aware STATIC
 )
 
 target_include_directories(aware PUBLIC include)
-target_link_libraries(aware Boost::asio zeroconf)
+target_link_libraries(aware Boost::asio Boost::chrono zeroconf)
 
 if (AVAHI_COMMON_LIBRARIES)
   target_include_directories(aware PUBLIC ${ZEROCONF_AVAHI_INCLUDE_DIRS})
