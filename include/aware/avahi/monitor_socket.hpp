@@ -20,7 +20,6 @@
 #include <boost/asio/basic_io_object.hpp>
 
 #include <aware/contact.hpp>
-#include <aware/monitor_socket.hpp>
 #include <aware/avahi/service.hpp>
 
 namespace aware
@@ -31,14 +30,15 @@ namespace avahi
 
 namespace detail { class monitor; }
 
-class monitor_socket
-    : public aware::monitor_socket,
+class monitor_socket :
       public boost::asio::basic_io_object<avahi::service>
 {
     typedef boost::shared_ptr<aware::avahi::detail::monitor> monitor_ptr;
     typedef std::map<std::string, monitor_ptr> monitor_map;
 
 public:
+    typedef boost::function<void (const boost::system::error_code&)> async_listen_handler;
+
     monitor_socket(boost::asio::io_service& io);
 
     void async_listen(aware::contact& contact,

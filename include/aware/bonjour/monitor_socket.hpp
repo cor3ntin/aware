@@ -16,7 +16,6 @@
 #include <map>
 #include <boost/shared_ptr.hpp>
 #include <boost/asio/io_service.hpp>
-#include <aware/monitor_socket.hpp>
 #include <aware/detail/native_socket.hpp>
 #include <aware/bonjour/detail/handle.hpp>
 
@@ -28,13 +27,13 @@ namespace bonjour
 namespace detail { class monitor; }
 
 class monitor_socket
-    : public aware::monitor_socket
 {
 public:
     monitor_socket(boost::asio::io_service&);
     ~monitor_socket();
+    typedef boost::function<void (const boost::system::error_code&)> async_listen_handler;
 
-    virtual void async_listen(aware::contact&,
+    void async_listen(aware::contact&,
                               async_listen_handler);
 
 private:

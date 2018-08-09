@@ -23,7 +23,7 @@
 #include <boost/asio/basic_waitable_timer.hpp>
 #include <boost/chrono/system_clocks.hpp>
 #include <aware/contact.hpp>
-#include <aware/monitor_socket.hpp>
+#include <aware/bonjour/monitor_socket.hpp>
 #include <aware/bonjour/detail/handle.hpp>
 #include <aware/bonjour/detail/browser.hpp>
 #include <aware/bonjour/detail/resolver.hpp>
@@ -46,7 +46,7 @@ namespace bonjour {
 
         class monitor : public browser_listener, public resolver_listener {
         public:
-            typedef typename aware::monitor_socket::async_listen_handler async_listen_handler;
+            typedef typename aware::bonjour::monitor_socket::async_listen_handler async_listen_handler;
 
             monitor(boost::asio::io_service&, detail::handle&);
 

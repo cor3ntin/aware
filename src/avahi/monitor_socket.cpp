@@ -33,7 +33,7 @@ namespace detail
 class monitor : public browser::listener
 {
     typedef std::pair<boost::system::error_code, aware::contact> response_type;
-    typedef aware::monitor_socket::async_listen_handler handler_type;
+    typedef aware::avahi::monitor_socket::async_listen_handler handler_type;
 
 public:
     monitor(boost::asio::io_service& io,

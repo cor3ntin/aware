@@ -72,7 +72,7 @@ struct browser::wrapper
             {
                 char *key;
                 char *value;
-                if (avahi_string_list_get_pair(txt, &key, &value, 0) == AVAHI_OK)
+                if (avahi_string_list_get_pair(txt, &key, &value, 0) == AVAHI_OK && value)
                 {
                     properties[key] = value;
                     avahi_free(key);

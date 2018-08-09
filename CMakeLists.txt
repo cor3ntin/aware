@@ -59,7 +59,6 @@ add_library(aware STATIC
   include/aware/detail/native_socket.hpp
   include/aware/detail/utility.hpp
   include/aware/aware.hpp
-  include/aware/monitor_socket.hpp
 )
 
 target_include_directories(aware PUBLIC include)
