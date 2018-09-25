@@ -64,12 +64,10 @@ struct AvahiWatch
         revents = (AvahiWatchEvent)(revents & ~AVAHI_WATCH_IN);
         socket.async_read_event(boost::bind(&AvahiWatch::process_read,
                                             this,
-                                            boost::asio::placeholders::error,
-                                            boost::asio::placeholders::bytes_transferred));
+                                            boost::asio::placeholders::error));
     }
 
-    void process_read(const boost::system::error_code& error,
-                      std::size_t /* bytes_transferred */)
+    void process_read(const boost::system::error_code& error)
     {
         if (!error)
         {
@@ -92,12 +90,10 @@ struct AvahiWatch
         revents = (AvahiWatchEvent)(revents & ~AVAHI_WATCH_OUT);
         socket.async_write_event(boost::bind(&AvahiWatch::process_write,
                                              this,
-                                             boost::asio::placeholders::error,
-                                             boost::asio::placeholders::bytes_transferred));
+                                             boost::asio::placeholders::error));
     }
 
-    void process_write(const boost::system::error_code& error,
-                       std::size_t /* bytes_transferred */)
+    void process_write(const boost::system::error_code& error)
     {
         if (!error)
         {
