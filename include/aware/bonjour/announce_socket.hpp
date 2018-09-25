@@ -35,7 +35,7 @@ namespace bonjour {
         virtual void async_announce(aware::contact& contact, async_announce_handler);
 
     private:
-        void process_read_event(const boost::system::error_code&, std::size_t);
+        void process_read_event(const boost::system::error_code&);
 
         void invoke(const boost::system::error_code&, async_announce_handler);
 

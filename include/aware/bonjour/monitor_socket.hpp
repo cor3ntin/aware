@@ -37,8 +37,7 @@ public:
                               async_listen_handler);
 
 private:
-    void process_read_event(const boost::system::error_code&,
-                            std::size_t);
+    void process_read_event(const boost::system::error_code&);
 
     void invoke(const boost::system::error_code&,
                 async_listen_handler);

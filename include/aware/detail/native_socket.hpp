@@ -41,12 +41,12 @@ namespace detail {
 
         template <typename Handler>
         void async_read_event(BOOST_ASIO_MOVE_ARG(Handler) handler) {
-            socket.async_read_some(boost::asio::null_buffers(), handler);
+            socket.async_wait(socket_type::wait_read, handler);
         }
 
         template <typename Handler>
         void async_write_event(BOOST_ASIO_MOVE_ARG(Handler) handler) {
-            socket.async_write_some(boost::asio::null_buffers(), handler);
+            socket.async_wait(socket_type::wait_write, handler);
         }
 
         native_handle_type native_handle();

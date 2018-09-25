@@ -73,8 +73,7 @@ void monitor_socket::async_listen(aware::contact& contact,
         {
             socket.async_read_event(boost::bind(&monitor_socket::process_read_event,
                                                 this,
-                                                boost::asio::placeholders::error,
-                                                boost::asio::placeholders::bytes_transferred));
+                                                boost::asio::placeholders::error));
         }
     }
     catch (const boost::system::system_error& ex)
@@ -87,8 +86,7 @@ void monitor_socket::async_listen(aware::contact& contact,
     // Other exceptions are propagated outwards
 }
 
-void monitor_socket::process_read_event(const boost::system::error_code& error,
-                                        std::size_t)
+void monitor_socket::process_read_event(const boost::system::error_code& error)
 {
     waiting = false;
     if (!error)
@@ -99,8 +97,7 @@ void monitor_socket::process_read_event(const boost::system::error_code& error,
         {
             socket.async_read_event(boost::bind(&monitor_socket::process_read_event,
                                                 this,
-                                                boost::asio::placeholders::error,
-                                                boost::asio::placeholders::bytes_transferred));
+                                                boost::asio::placeholders::error));
             waiting = true;
         }
         else

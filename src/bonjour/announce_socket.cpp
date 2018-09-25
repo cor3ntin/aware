@@ -65,8 +65,7 @@ void announce_socket::async_announce(aware::contact& contact,
         {
             socket.async_read_event(boost::bind(&announce_socket::process_read_event,
                                                 this,
-                                                boost::asio::placeholders::error,
-                                                boost::asio::placeholders::bytes_transferred));
+                                                boost::asio::placeholders::error));
             waiting = true;
         }
     }
@@ -80,8 +79,7 @@ void announce_socket::async_announce(aware::contact& contact,
     // Other exceptions are propagated outwards
 }
 
-void announce_socket::process_read_event(const boost::system::error_code& error,
-                                         std::size_t)
+void announce_socket::process_read_event(const boost::system::error_code& error)
 {
     waiting = false;
     if (!error)
@@ -92,8 +90,7 @@ void announce_socket::process_read_event(const boost::system::error_code& error,
         {
             socket.async_read_event(boost::bind(&announce_socket::process_read_event,
                                                 this,
-                                                boost::asio::placeholders::error,
-                                                boost::asio::placeholders::bytes_transferred));
+                                                boost::asio::placeholders::error));
             waiting = true;
         }
         else
