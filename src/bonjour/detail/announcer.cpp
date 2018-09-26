@@ -68,8 +68,10 @@ namespace bonjour {
         announcer::announcer(detail::handle& connection) : connection(connection) {}
 
         void announcer::announce(aware::contact& contact, async_announce_handler handler) {
-            if(current || !handle.empty()) {
+
+            if(current) {
                 throw_on_error(kDNSServiceErr_AlreadyRegistered);
+                return;
             }
 
             // This operation will be completed when data is ready and process() is called
@@ -89,10 +91,19 @@ namespace bonjour {
             current->properties = boost::make_shared<detail::properties>(contact.properties());
 
             ::DNSServiceRef ref = connection.get<DNSServiceRef>();
+
+            if(!handle.empty()) {
+                ::DNSServiceErrorType error = ::DNSServiceUpdateRecord(
+                    handle.get<DNSServiceRef>(), nullptr, 0, uint16_t(current->properties->size()), current->properties->data(), 0);
+                throw_on_error(error);
+                return;
+            }
+
             // May block for seconds if service not running
             ::DNSServiceErrorType error = ::DNSServiceRegister(
                 &ref, flags, interface_index, name.c_str(), type.c_str(), domain, host.empty() ? 0 : host.c_str(), port,
-                current->properties->size(), current->properties->data(), &announcer::callback::on_registered, this);
+                uint16_t(current->properties->size()), current->properties->data(), &announcer::callback::on_registered, this);
+
             throw_on_error(error);
 
             handle.reset(ref);
