@@ -95,25 +95,18 @@ namespace bonjour {
                 void deactivate(const aware::contact&);
 
             private:
-                void process_disappear(const boost::system::error_code&);
-                void execute_appear();
+				void execute_appear();
                 void execute_disappear();
 
             private:
                 monitor& self;
-                boost::asio::basic_waitable_timer<boost::chrono::steady_clock> timer;
                 active_container active;
                 addition_container additions;
                 removal_container removals;
-                std::size_t wildcard_count;
             };
             // Key is name (type is implicit)
             typedef std::map<std::string, boost::shared_ptr<scope> > scope_container;
             scope_container scopes;
-
-            typedef std::set<std::string> name_container;
-            name_container uncommitted_appear;
-            name_container uncommitted_disappear;
 
             typedef std::map<aware::contact, boost::shared_ptr<detail::resolver> > resolvers_type;
             resolvers_type resolvers;

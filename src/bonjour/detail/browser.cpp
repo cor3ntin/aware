@@ -40,7 +40,7 @@ namespace bonjour {
                                                      .name(name)
                                                      .domain(domain)
                                                      .index(to_index(interface_index));
-                        const bool commit = !(flags & kDNSServiceFlagsMoreComing);
+                        const bool commit = true; //!(flags & kDNSServiceFlagsMoreComing);
                         if(flags & kDNSServiceFlagsAdd) {
                             self->listener.on_browser_appear(contact, commit);
                         } else {
