@@ -24,7 +24,8 @@ namespace detail {
         if(socket.is_open()) {
             boost::system::error_code dummy;  // Ignore errors
             socket.close(dummy);
-            socket.release();
+            boost::system::error_code ec;
+            socket.release(ec);
         }
     }
 
