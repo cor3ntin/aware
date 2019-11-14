@@ -65,9 +65,26 @@ namespace avahi {
                 avahi_string_list_free(data);
             }
 
+
+            AvahiStringList* add_pair(AvahiStringList* next, const std::string& k, const std::string& v) {
+                AvahiStringList* n;
+                auto size = 2 + k.size() + v.size();
+                if(!(n = (AvahiStringList*)avahi_malloc(sizeof(AvahiStringList) + 2 + k.size() + v.size())))
+                    return NULL;
+
+                n->next = next;
+                n->size = size;
+                memcpy(n->text, k.c_str(), k.size());
+                n->text[k.size()] = '=';
+                memcpy(n->text + k.size() + 1, v.c_str(), v.size());
+                n->text[size] = 0;
+
+                return n;
+            }
+
             property_list& operator=(const announcer::property_map& properties) {
                 for(announcer::property_map::const_iterator it = properties.begin(); it != properties.end(); ++it) {
-                    data = avahi_string_list_add_pair(data, it->first.c_str(), it->second.c_str());
+                    data = add_pair(data, it->first, it->second);
                     if(data == 0) {
                         break;
                     }
